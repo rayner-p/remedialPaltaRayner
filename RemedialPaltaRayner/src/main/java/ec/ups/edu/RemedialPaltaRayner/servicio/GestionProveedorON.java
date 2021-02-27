@@ -24,7 +24,8 @@ public class GestionProveedorON implements GestionProveedorLocale {
 	@Inject
 	private AutorDao daoProducto;
 	private int cantidad;
-
+	
+	
 
 	public void actualizarLibro(Libro libro) throws Exception {
 		if (libro == null) {

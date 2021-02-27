@@ -29,9 +29,67 @@ public class LibroBean implements Serializable {
 	private LibroDao daoL;
 	private Libro libro;
 	private List<Autor> lstAutor;
+	private List<Autor> autorSeleccionado;
 	private List<Libro> lstLibo;
 	private List<Libro> lstLibroC;
 	private List<Categoria> cato;
+	private int stockF;
+	
+	public int getStockF() {
+		return stockF;
+	}
+
+	public void setStockF(int stockF) {
+		this.stockF = stockF;
+	}
+
+	public LibroDao getDaoL() {
+		return daoL;
+	}
+
+	public void setDaoL(LibroDao daoL) {
+		this.daoL = daoL;
+	}
+
+	public Libro getLibro() {
+		return libro;
+	}
+
+	public void setLibro(Libro libro) {
+		this.libro = libro;
+	}
+
+	public List<Autor> getLstAutor() {
+		return lstAutor;
+	}
+
+	public void setLstAutor(List<Autor> lstAutor) {
+		this.lstAutor = lstAutor;
+	}
+
+	public List<Libro> getLstLibo() {
+		return lstLibo;
+	}
+
+	public void setLstLibo(List<Libro> lstLibo) {
+		this.lstLibo = lstLibo;
+	}
+
+	public List<Libro> getLstLibroC() {
+		return lstLibroC;
+	}
+
+	public void setLstLibroC(List<Libro> lstLibroC) {
+		this.lstLibroC = lstLibroC;
+	}
+
+	public List<Categoria> getCato() {
+		return cato;
+	}
+
+	public void setCato(List<Categoria> cato) {
+		this.cato = cato;
+	}
 
 	@PostConstruct
 	public void init() {
@@ -43,9 +101,23 @@ public class LibroBean implements Serializable {
 	}
 
 	public void registrarLibro() throws Exception {
+		Categoria c = new Categoria();
+		Autor a = new Autor();
+		
 		try {
+			for (Categoria categoria : cato) {
+				c = categoria;
+			}
+			for (Autor autor : lstAutor) {
+				a = autor;
+			}
+			
+			libro.setStock(stockF);
+			libro.setCategoria_fk(c);
+			libro.setAutor_fk(a);
 			on.insertarLibro(libro);
 			System.out.println("INSERTADO");
+			
 		} catch (Exception e) {
 			throw new Exception("Erro al insertar libro on" + e.getLocalizedMessage());
 		}
@@ -101,7 +173,6 @@ public class LibroBean implements Serializable {
 
 	public void obtenerCategoria() throws Exception {
 		try {
-
 			if (on.obtenerCato() == null) {
 				System.out.println("LISTA NULA");
 			} else {

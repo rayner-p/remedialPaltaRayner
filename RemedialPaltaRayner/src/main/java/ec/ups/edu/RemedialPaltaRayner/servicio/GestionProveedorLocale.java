@@ -4,16 +4,18 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import examenProveedor2.examenProveedor2.modelo.Producto;
-import examenProveedor2.examenProveedor2.modelo.Proveedor;
+import ec.ups.edu.RemedialPaltaRayner.modelo.Autor;
+import ec.ups.edu.RemedialPaltaRayner.modelo.Categoria;
+import ec.ups.edu.RemedialPaltaRayner.modelo.Libro;
 
 @Local
 public interface GestionProveedorLocale {
-	public void registrarProducto(Producto producto) throws Exception;
-	public void registrarProveedor(Proveedor proveedor) throws Exception;
-	public String actualizarStock(int stock, int nombre);
-	public List<Producto> obtenerProductos() throws Exception;
-	public List<Proveedor> obtenerProveedor() throws Exception;
-	public List<Producto> listadoProductoCodigo(int codigo);
-	public void solicitarProducto(int codigo);
+	
+	public void actualizarLibro(Libro libro) throws Exception ;
+	public boolean insertarLibro(Libro libro) throws Exception ;
+	public List<Libro> obtenerLibro() throws Exception;
+	public List<Libro> obtenerlibroCategoria(String categoria);
+	public List<Autor> obtenerAutor() throws Exception;
+	public List<Categoria> obtenerCato()throws Exception;
+	
 }

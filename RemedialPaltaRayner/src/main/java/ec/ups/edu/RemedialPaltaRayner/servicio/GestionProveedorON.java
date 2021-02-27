@@ -1,93 +1,100 @@
 package ec.ups.edu.RemedialPaltaRayner.servicio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 
-import examenProveedor2.examenProveedor2.datos.ProductoDAO;
-import examenProveedor2.examenProveedor2.datos.ProveedorDAO;
-import examenProveedor2.examenProveedor2.modelo.Producto;
-import examenProveedor2.examenProveedor2.modelo.Proveedor;
+import ec.ups.edu.RemedialPaltaRayner.dato.AutorDao;
+import ec.ups.edu.RemedialPaltaRayner.dato.CategoriaDao;
+import ec.ups.edu.RemedialPaltaRayner.dato.LibroDao;
+import ec.ups.edu.RemedialPaltaRayner.modelo.Autor;
+import ec.ups.edu.RemedialPaltaRayner.modelo.Categoria;
+import ec.ups.edu.RemedialPaltaRayner.modelo.Libro;
+
 
 @Stateless
 public class GestionProveedorON implements GestionProveedorLocale {
 	@Inject
-	private ProveedorDAO daoProveedor;
+	private LibroDao daoLibro;
 	@Inject
-	private ProductoDAO daoProducto;
+	private CategoriaDao daoCato;
+	@Inject
+	private AutorDao daoProducto;
 	private int cantidad;
-	public void registrarProducto(Producto producto) throws Exception {
-		try {
-			if (producto == null) {
-				System.out.println("prodcuto nulo");
-			} else {
-				daoProducto.insertarProducto(producto);
-				System.out.println("insertado");
-			}
-		} catch (Exception e) {
-			throw new Exception("Error al momento de insertar producto on" + e.getLocalizedMessage());
-		}
-	}
-	
-	public void registrarProveedor(Proveedor proveedor) throws Exception {
-		try {
-			if (proveedor == null) {
-				System.out.println("proveedor nulo");
-			} else {
-				daoProveedor.insertarProveedor(proveedor);
-				System.out.println("insertado");
-			}
-		} catch (Exception e) {
-			throw new Exception("Error al momento de insertar proveedor on" + e.getLocalizedMessage());
-		}
-	}
-	
-	public String actualizarStock(int stock, int nombre) {
-		try {
-			
-			if(stock==0 & nombre ==0.0) {
-				System.out.println("Valores nulos");
-			}else {
-				daoProducto.actualizarStock(stock, nombre);
-			}
-		}catch (Exception e) {
-			// TODO: handle exception
-		}
-		return null;
-	}
-	
-	public List<Producto> obtenerProductos() throws Exception{
-		try {
-			List<Producto> lstProducto= daoProducto.obtenerProductos();
-			return lstProducto;
-		}catch (Exception e) {
-			throw new Exception("Error al momento de insertar proveedor on" + e.getLocalizedMessage());
 
-		}	
-	}
-	
-	public List<Proveedor> obtenerProveedor() throws Exception{
-		try {
-			List<Proveedor> lstProducto= daoProveedor.obtenerProveedor();
-			return lstProducto;
-		}catch (Exception e) {
-			throw new Exception("Error al momento de insertar proveedor on" + e.getLocalizedMessage());
 
-		}	
+	public void actualizarLibro(Libro libro) throws Exception {
+		if (libro == null) {
+			System.err.println("Libro nulo");
+		} else {
+			try {
+				daoLibro.insertarLibro(libro);
+			} catch (Exception e) {
+				throw new Exception("Error al momento de insertar libro on" + e.getLocalizedMessage());
+
+			}
+
+		}
+
 	}
+
+	public boolean insertarLibro(Libro libro) throws Exception{
+		if (libro == null) {
+			System.err.println("Libro nulo");
+		} else {
+			try {
+				daoLibro.insertarLibro(libro);
+			} catch (Exception e) {
+				throw new Exception("Error al momento de insertar libro on" + e.getLocalizedMessage());
+
+			}
+
+		}
+		return false;
+	}
+
 	
-	public void solicitarProducto(int codigo) {
-		if(codigo ==0) {
-			System.out.println("CODIGO NULO, PRODUCTO NO EXISTE CON ESE CODIGO");
+	public List<Libro> obtenerLibro() throws Exception {
+		List<Libro> newLibro = new ArrayList<Libro>();
+		newLibro= daoLibro.obtenerLibro();
+		return newLibro;
+	}
+
+	
+	public List<Libro> obtenerlibroCategoria(String categoria) {
+		List<Libro> newLibro2 = new ArrayList<Libro>();
+		if (categoria == null) {
+			System.err.println("Categoria nula");
 		}else {
-			actualizarStock(cantidad, codigo);
-			System.out.println("actualizado");
-		}	
+			
+			newLibro2= daoLibro.obtenerlibroCategoria(categoria);
+			return newLibro2;
+		}
+		return newLibro2;
 	}
-	public List<Producto> listadoProductoCodigo(int codigo){
-		List<Producto> produc = daoProducto.listadoProductoCodigo(codigo);
-		System.out.println("producto"+" "  + produc);
-		return produc;
+
+	
+	public List<Autor> obtenerAutor() throws Exception {
+		List<Autor> newAutor = new ArrayList<Autor>();
+		try {
+			newAutor = daoProducto.obtenerAutor();
+		}catch (Exception e) {
+			throw new Exception("Error al momento de obtener autor on" + e.getLocalizedMessage());
+		}
+		
+		return newAutor;
+	}
+	public List<Categoria> obtenerCato()throws Exception{
+		List<Categoria> newCato = new ArrayList<Categoria>();
+		try {
+			newCato = daoCato.obtenerCato();
+		}catch (Exception e) {
+			throw new Exception("Error al momento de obtener autor on" + e.getLocalizedMessage());
+		}
+		
+		return newCato;
 	}
 }
